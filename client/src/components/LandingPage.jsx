@@ -46,7 +46,7 @@ export function LandingPage() {
     <div className="bg-gray-100 min-h-screen mt-16"> {/* Agregar la clase mt-16 para dar margen superior */}
       <header className="bg-blue-500 text-white py-8">
         <div className="container mx-auto text-center">
-          <h1 className="text-4xl font-semibold">Welcome to CryptoNews</h1>
+          <h1 className="text-4xl font-semibold">Welcome to CryptoNewsHub</h1>
           <p className="mt-4 text-lg">
             Your source for the latest cryptocurrency news and updates.
           </p>

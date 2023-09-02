@@ -10,7 +10,7 @@ export function MenuBar() {
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-semibold">
             <Link to="/" className="transition duration-300 ease-in-out transform hover:scale-110 bg-yellow-600 hover:bg-yellow-300 text-black px-4 py-2 rounded-md shadow-md">
-              CryptoNews
+              CryptoNewsHub
             </Link>
           </h1>
           <div className="space-x-4">
