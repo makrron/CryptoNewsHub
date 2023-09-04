@@ -74,11 +74,11 @@ def get_coin_telegraph_news(tag):
         url = "https://cointelegraph.com" + new.find("a", class_="post-card-inline__figure-link")["href"]
         try:
             image_request = requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:110.0) '
-                                                                        'Gecko/20100101 Firefox/110.0',
-                                                        'Accept': 'text/html,application/xhtml+xml,application/'
-                                                                    'xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-                                                        'Referer': 'https://cointelegraph.com',
-                                                        'Host': 'cointelegraph.com'})
+                                                                     'Gecko/20100101 Firefox/110.0',
+                                                       'Accept': 'text/html,application/xhtml+xml,application/'
+                                                                 'xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+                                                       'Referer': 'https://cointelegraph.com',
+                                                       'Host': 'cointelegraph.com'})
             image_soup = BeautifulSoup(image_request.text, "html.parser")
             image_url = image_soup.find("img", class_="lazy-image__img")["src"]
         except TypeError:
@@ -357,54 +357,57 @@ def get_newsbtc_news(tag):
 
 def get_thecryptobasic_news(tag):
     url = f"https://thecryptobasic.com/{tag}"
-    response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:110.0) '
-                                                        'Gecko/20100101 Firefox/110.0',
-                                          'Accept': 'text/html,application/xhtml+xml,application/'
-                                                    'xml;q=0.9,image/avif,image/webp,*/*;q=0.8'})
-    soup = BeautifulSoup(response.text, "html.parser")
-    # News are in div class "tdb_module_loop td_module_wrap td-animation-stack td-cpt-post"
-    news = soup.find_all("div", class_="tdb_module_loop td_module_wrap td-animation-stack td-cpt-post")
-    for new in news:
-        # Get image on span class "entry-thumb td-thumb-css rocket-lazyload entered lazyloaded"
-        image_url = new.find("span", class_="entry-thumb td-thumb-css rocket-lazyload")["data-bg"]
-        # get url on a class "td-image-wrap" href
-        url = new.find("a", class_="td-image-wrap")["href"]
-        # get title on h3 class "entry-title td-module-title"
-        title = new.find("h3", class_="entry-title td-module-title").find("a").text
-        # get summary on div class "td-excerpt"
-        summary = new.find("div", class_="td-excerpt").text
-        summary = re.sub(r"^\n", "", summary)
+    try:
+        response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:110.0) '
+                                                            'Gecko/20100101 Firefox/110.0',
+                                              'Accept': 'text/html,application/xhtml+xml,application/'
+                                                        'xml;q=0.9,image/avif,image/webp,*/*;q=0.8'})
+        soup = BeautifulSoup(response.text, "html.parser")
+        # News are in div class "tdb_module_loop td_module_wrap td-animation-stack td-cpt-post"
+        news = soup.find_all("div", class_="tdb_module_loop td_module_wrap td-animation-stack td-cpt-post")
+        for new in news:
+            # Get image on span class "entry-thumb td-thumb-css rocket-lazyload entered lazyloaded"
+            image_url = new.find("span", class_="entry-thumb td-thumb-css rocket-lazyload")["data-bg"]
+            # get url on a class "td-image-wrap" href
+            url = new.find("a", class_="td-image-wrap")["href"]
+            # get title on h3 class "entry-title td-module-title"
+            title = new.find("h3", class_="entry-title td-module-title").find("a").text
+            # get summary on div class "td-excerpt"
+            summary = new.find("div", class_="td-excerpt").text
+            summary = re.sub(r"^\n", "", summary)
 
-        # get date on time class "entry-date updated td-module-date" text
-        date = new.find("time", class_="entry-date updated td-module-date").text
-        # get category from tag
-        category = tag
-        category = re.sub(r"/", " ", category)
-        category = re.sub(r"-", " ", category)
-        category = re.sub(r"^\s", "", category)
-        category = re.sub(r"^\n", "", category)
-        category = category.title()
-        # expresion regular para eliminar las palabras "News" y "Tag" de la categoria
-        category = re.sub(r"News", "", category)
-        category = re.sub(r"Tag", "", category)
-        category = re.sub(r"Category", "", category)
-        # eliminar los espacios del principio y final de la categoria
-        category = re.sub(r"^\s", "", category)
-        # eliminar el espacio del final de la categoria
-        category = re.sub(r"\s$", "", category)
-        category = category.title()
+            # get date on time class "entry-date updated td-module-date" text
+            date = new.find("time", class_="entry-date updated td-module-date").text
+            # get category from tag
+            category = tag
+            category = re.sub(r"/", " ", category)
+            category = re.sub(r"-", " ", category)
+            category = re.sub(r"^\s", "", category)
+            category = re.sub(r"^\n", "", category)
+            category = category.title()
+            # expresion regular para eliminar las palabras "News" y "Tag" de la categoria
+            category = re.sub(r"News", "", category)
+            category = re.sub(r"Tag", "", category)
+            category = re.sub(r"Category", "", category)
+            # eliminar los espacios del principio y final de la categoria
+            category = re.sub(r"^\s", "", category)
+            # eliminar el espacio del final de la categoria
+            category = re.sub(r"\s$", "", category)
+            category = category.title()
 
-        # create news object
-        # Save news in database
-        save_new_in_database(source="The Crypto Basic",
-                             title=title,
-                             url=url,
-                             image_url=image_url,
-                             summary=summary,
-                             category=category,
-                             date=None,
-                             content=None)
-
+            # create news object
+            # Save news in database
+            save_new_in_database(source="The Crypto Basic",
+                                 title=title,
+                                 url=url,
+                                 image_url=image_url,
+                                 summary=summary,
+                                 category=category,
+                                 date=None,
+                                 content=None)
+    except Exception as e:
+        print(e)
+        pass
 
 def get_livebitcoinnews_news(tag):
     url = f"https://www.livebitcoinnews.com/{tag}"
@@ -445,16 +448,58 @@ def get_livebitcoinnews_news(tag):
                              content=None)
 
 
-def get_cryptonews():
-    url = f"https://cryptonews.com/news/"
-    response = requests.get(url)
+def get_cryptonews(page):
+    url = f"https://cryptonews.com/news/{page}"
+    response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:110.0) '
+                                                        'Gecko/20100101 Firefox/110.0',
+                                          'Accept': 'text/html,application/xhtml+xml,application/'
+                                                    'xml;q=0.9,image/avif,image/webp,*/*;q=0.8'})
+
     soup = BeautifulSoup(response.text, "html.parser")
-    print(soup)
+    # get all article class mb-15 mb-sm-30 article-item
+    news = soup.find_all("article", class_="mb-15 mb-sm-30 article-item")
+    for new in news:
+        try:
+            # get summary on div class mb-25 d-none d-md-block into div class class="col-12 col-md-7 column-45__right d-flex flex-column justify-content-center"
+            summary = new.find("div", class_="mb-25 d-none d-md-block").text
+            # get title on a class article__title article__title--lg article__title--featured mb-20
+            title = new.find("a", class_="article__title article__title--lg article__title--featured mb-20").text
+            # get image url on img class img-fluid src
+            image_url = new.find("img", class_="img-fluid")["src"]
+            # get url on href in a <a class="article__title article__title--lg article__title--featured mb-20"
+            article_url = new.find("a", class_="article__title article__title--lg article__title--featured mb-20")["href"]
+            # get categoty on article__badge article__badge--md a class
+            category = new.find("a", class_="article__badge article__badge--md").text
+            category = re.sub(r" News", "", category)
+            category = re.sub(r"^\s", "", category)
+
+            save_new_in_database(source="Crypto News",
+                                 title=title,
+                                 url=article_url,
+                                 image_url=image_url,
+                                 summary=summary,
+                                 category=category,
+                                 date=None,
+                                 content=None)
+        except Exception:
+            pass
 
 
 if __name__ == '__main__':
-
     while True:
+        get_cryptonews("")
+        get_cryptonews("bitcoin-news")
+        get_cryptonews("blockchain-news")
+        get_cryptonews("ethereum-news")
+        get_cryptonews("defi-news")
+        get_cryptonews("finance-news")
+        get_cryptonews("ico-news")
+        get_cryptonews("technology-news")
+        get_cryptonews("industry-talk")
+        get_cryptonews("cryptonews-deals")
+        get_cryptonews("press-releases")
+        get_cryptonews("altcoin-news")
+
         get_livebitcoinnews_news("news/bitcoin-news/")
         get_livebitcoinnews_news("news/altcoin-news/")
         get_livebitcoinnews_news("news/exchange-news/")
