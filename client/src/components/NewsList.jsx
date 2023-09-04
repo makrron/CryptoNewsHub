@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getAllNews } from '../api/news.api.js';
 import { NewsCard } from './NewsCard.jsx';
 import { Navigation } from './Navigation.jsx';
-
+import ReloadButton from './reloadboton.jsx'
 export function NewsList() {
   const [news, setNews] = useState([]);
   const [filteredNews, setFilteredNews] = useState([]);
@@ -96,6 +96,7 @@ export function NewsList() {
           )}
         </div>
       </div>
+        <ReloadButton />
     </div>
   );
 }
