@@ -1,10 +1,9 @@
-// Navigation.jsx
 import React from 'react';
 
 export function Navigation({ categories, sources, onSelectCategory, onSelectSource, onSearchChange, searchQuery }) {
   return (
     <nav className="bg-gray-200 p-3 sticky top-16 z-10">
-      <div className="flex items-center space-x-4">
+      <div className="flex flex-wrap items-center justify-center space-y-2 md:space-y-0 md:space-x-4">
         <p className="text-sm">Filter by:</p>
         <select
           onChange={onSelectCategory}
@@ -28,7 +27,9 @@ export function Navigation({ categories, sources, onSelectCategory, onSelectSour
             </option>
           ))}
         </select>
-        {/* Agregar el campo de búsqueda */}
+      </div>
+      {/* Agregar el campo de búsqueda */}
+      <div className="flex items-center justify-center mt-2">
         <input
           type="text"
           placeholder="Search news..."
