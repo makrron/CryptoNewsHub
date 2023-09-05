@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./client
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+  scraping:
+    build:
+      context: ./scrap
+    depends_on:
+      - backend
