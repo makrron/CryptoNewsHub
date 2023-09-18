@@ -28,7 +28,7 @@ def save_new_in_database(source, title, url, image_url, summary, category, date,
 
     # Initialize a client & load the schema document
     client = coreapi.Client()
-    schema = client.get("http://backend:8000/news/docs/")
+    schema = client.get("backend://localhost:8000/news/docs/")
 
     # Interact with the API endpoint
     action = ["news", "create"]

@@ -19,4 +19,4 @@ RUN npm run build
 EXPOSE 5173
 
 # Comando para iniciar el servidor web (en este caso, Nginx)
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
